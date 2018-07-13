@@ -31,6 +31,7 @@
 			<td><img src="img/mypage/img_girl.jpg" alt="" /></td>
 			<td id="wt">
 			<ul>
+				<li><a href="jsp/join/joinFrom.jsp">회원가입</a></li>
 				<li><a href="jsp/login/userLoginForm.jsp">사용자 로그인</a></li>
 				<li><a href="jsp/login/admin_login.jsp">관리자로그인</a></li>
 				<li><%=now %></li>

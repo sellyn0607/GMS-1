@@ -9,7 +9,7 @@ public interface MemberServiceDAO {
 	public MemberBean findById(MemberBean member);
 	public String updateMember(MemberBean member);
 	public String deleteMember(MemberBean member);
-	public List<MemberBean> list();
+	public List<MemberBean> selectAllMember();
 	public MemberBean login(MemberBean member);
 	
 }

@@ -10,6 +10,7 @@ public interface MemberService {
 	public List<MemberBean> findBySearch(String member);
 	public String update(MemberBean member);
 	public String delete(MemberBean member);
+	public List<MemberBean> selectAllMember();
 	public List<MemberBean> list();
 	public MemberBean login(MemberBean member);
 	

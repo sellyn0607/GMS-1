@@ -12,12 +12,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void createMember(MemberBean member) {
-		// TODO Auto-generated method stub
+		MemberServiceDAOImpl.getInstance().insertMember(member);
 	}
 
 	@Override
 	public MemberBean findById(MemberBean member) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -46,6 +46,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberBean login(MemberBean member) {
 		return MemberServiceDAOImpl.getInstance().login(member);
+	}
+	@Override
+	public List<MemberBean> selectAllMember() {
+		List<MemberBean> lst = null;
+		
+		return lst;
 	}
 	
 

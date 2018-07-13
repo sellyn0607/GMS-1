@@ -4,14 +4,30 @@ import java.sql.*;
 import java.util.List;
 
 import domain.MemberBean;
+import enums.MemberQuery;
+import enums.Vendor;
+import factory.*;
+
+import pool.DBConstant;
+import service.MemberServiceImpl;
 
 public class MemberServiceDAOImpl implements MemberServiceDAO{
 	private static MemberServiceDAO instance = new MemberServiceDAOImpl();
 	public static MemberServiceDAO getInstance() {return instance;}
+	Connection conn;
+	Statement stmt;
 	private MemberServiceDAOImpl() {}
 	@Override
 	public void insertMember(MemberBean member) {
-		// TODO Auto-generated method stub
+		try {
+			
+			DatabaseFactory.createDatabase(Vendor.ORACLE, DBConstant.USERID, DBConstant.USERPW).getConnection().
+			createStatement().executeUpdate(String.format(MemberQuery.INSERT_MEMBAER.toString(),member.getUserid(),
+					member.getPassword(),member.getName(),member.getSsn()));
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	@Override
@@ -30,31 +46,31 @@ public class MemberServiceDAOImpl implements MemberServiceDAO{
 		return null;
 	}
 	@Override
-	public List<MemberBean> list() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MemberBean>  selectAllMember() {
+		List<MemberBean> lst=null;
+		
+		return lst;
 	}
 	@Override
 	public MemberBean login(MemberBean member) {
 		MemberBean m = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:xe","KJ","2654");
-			Statement stmt = conn.createStatement();
-			String sql=String.format("SELECT MEM_ID userid, TEAM_ID, NAME, AGE,ROLL"+
-					"  ,PASSWORD FROM MEMBER WHERE MEM_ID LIKE '%s' and PASSWORD LIKE '%s'",member.getUserid(),member.getPaaword()); 
-			ResultSet rs = stmt.executeQuery(sql);
+			
+			ResultSet rs =DatabaseFactory.createDatabase(
+					Vendor.ORACLE,DBConstant.USERID, DBConstant.USERPW).getConnection().
+					createStatement().
+					executeQuery(String.format(MemberQuery.LOGIN.toString(),member.getUserid(),member.getPassword()));
+			
 			while(rs.next()) {
 				m=new MemberBean();
 				m.setUserid(rs.getString("userid"));
 				m.setName(rs.getString("NAME"));
-				m.setAge(rs.getString("AGE"));
-				m.setPaaword(rs.getString("PASSWORD"));
+				m.setSsn(rs.getString("SSN"));
+				m.setPassword(rs.getString("PASSWORD"));
 			}
-			if(m==null) {
+			if(m.getName()==null) {
 				m=new MemberBean();
-				m.setAge("999");
+				m.setSsn("999");
 			}
 		
 		} catch (Exception e) {
